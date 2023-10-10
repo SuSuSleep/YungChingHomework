@@ -1,7 +1,7 @@
 ﻿using YungChingHomework.DBModels;
 using YungChingHomework.DTOs.Infos;
 
-namespace YungChingHomework.Repository
+namespace YungChingHomework.Repositories
 {
     public interface ICustomerRepository
     {
