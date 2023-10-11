@@ -1,7 +1,9 @@
 ﻿using YungChingHomework.DBModels;
+using YungChingHomework.DTOs.Conditions;
 using YungChingHomework.DTOs.Infos;
 using YungChingHomework.DTOs.ViewModels;
 using YungChingHomework.Repositories;
+using YungChingHomework.Services;
 
 namespace YungChingHomework.Service
 {
@@ -16,9 +18,11 @@ namespace YungChingHomework.Service
     public class CustomerService : ICustomerService
     {
         private readonly ICustomerRepository _customerRepository;
-        public CustomerService(ICustomerRepository customerRepository)
+        private readonly IOrderService _orderService;
+        public CustomerService(ICustomerRepository customerRepository, IOrderService orderService)
         {
             _customerRepository = customerRepository;
+            _orderService = orderService;
         }
 
         public IEnumerable<CustomerView> GetCustomers()
@@ -49,6 +53,15 @@ namespace YungChingHomework.Service
         }
         public bool DeleteCustomer(long Id)
         {
+            OrderSearchCondition orderSearchCondition = new OrderSearchCondition
+            {
+                CustomerId = Id
+            };
+            List<OrderView> orderViews = _orderService.GetOrders(orderSearchCondition).ToList();
+            foreach (OrderView view in orderViews)
+            {
+                _orderService.DeleteOrder(view.OrderId);
+            }
             bool deleteSuccess = _customerRepository.Delete(Id);
             return deleteSuccess;
         }

@@ -17,9 +17,11 @@ namespace YungChingHomework.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
-        public OrderService(IOrderRepository orderRepository)
+        private readonly IOrderDetailService _orderDetailService;
+        public OrderService(IOrderRepository orderRepository, IOrderDetailService orderDetailService)
         {
             _orderRepository = orderRepository;
+            _orderDetailService = orderDetailService;
         }
 
         public IEnumerable<OrderView> GetOrders(OrderSearchCondition orderSearchCondition)
@@ -50,6 +52,15 @@ namespace YungChingHomework.Services
         }
         public bool DeleteOrder(long Id)
         {
+            OrderDetailSearchCondition orderDetailSearchCondition = new OrderDetailSearchCondition
+            {
+                OrderId = Id
+            };
+            List<OrderDetailView> orderDetailViews = _orderDetailService.GetOrderDetails(orderDetailSearchCondition).ToList();
+            foreach (OrderDetailView view in orderDetailViews)
+            {
+                _orderDetailService.DeleteOrderDetail(view.OrderDetailId);
+            }
             bool deleteSuccess = _orderRepository.Delete(Id);
             return deleteSuccess;
         }
