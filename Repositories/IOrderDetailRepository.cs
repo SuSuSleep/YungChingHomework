@@ -23,6 +23,10 @@ namespace YungChingHomework.Repositories
                 return orderDetails.Where(c => c.OrderDetailId == OrderDetailSearchCondition.OrderDetailId).ToList();
             }
 
+            if (OrderDetailSearchCondition.OrderId != null)
+            {
+                orderDetails = orderDetails.Where(c => c.OrderId.Equals(OrderDetailSearchCondition.OrderId));
+            }
             if (OrderDetailSearchCondition.ProductIds != null)
             {
                 orderDetails = orderDetails.Where(c => Array.Exists(OrderDetailSearchCondition.ProductIds, id => id == c.ProductId));

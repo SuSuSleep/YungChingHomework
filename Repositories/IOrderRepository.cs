@@ -25,16 +25,6 @@ namespace YungChingHomework.Repositories
             }
             return res;
         }
-        private DateTime BytesToDate(byte[]? bytes)
-        {
-            string temp = "";
-            if (bytes == null) return DateTime.MinValue;
-            foreach (byte b in bytes)
-            {
-                temp += Convert.ToChar(b);
-            }
-            return DateTime.ParseExact(temp, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-        }
         public IEnumerable<Order> GetList(OrderSearchCondition orderSearchCondition)
         {
             using var dbContext = new NorthwindContext();
@@ -47,14 +37,6 @@ namespace YungChingHomework.Repositories
             if (orderSearchCondition.CustomerId != null)
             {
                 orders = orders.Where(c => c.CustomerId == orderSearchCondition.CustomerId);
-            }
-            if (orderSearchCondition.StartDate != null)
-            {
-                orders = orders.Where(c => DateTime.Compare(BytesToDate(c.OrderDate), (DateTime)orderSearchCondition.StartDate) >= 0);
-            }
-            if (orderSearchCondition.EndDate != null)
-            {
-                orders = orders.Where(c => DateTime.Compare(BytesToDate(c.OrderDate), (DateTime)orderSearchCondition.EndDate) <= 0);
             }
 
             return orders.ToList();

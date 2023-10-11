@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using YungChingHomework.DBModels;
 using YungChingHomework.Repositories;
+using YungChingHomework.Service;
 using YungChingHomework.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,9 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
 builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerAnalysisService, CustomerAnalysisService>();
 
 var app = builder.Build();
 

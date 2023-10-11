@@ -70,12 +70,12 @@ namespace YungChingHomework.Controllers
                 return NotFound();
             }
         }
-        [HttpGet("{Id}/{StartDate}/{EndDate}", Name = "GetCustomerProductCash")]
+        [HttpGet("ProductCash/{Id}", Name = "GetCustomerProductCash")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public CustomerProductCash? GetCustomerProductCash([FromRoute] long Id, DateTime? StartDate, DateTime? EndDate)
+        public CustomerProductCash? GetCustomerProductCash(long Id)
         {
-            return this._customerAnalysisService.GetCustomerProductCash(Id, StartDate, EndDate);
+            return this._customerAnalysisService.GetCustomerProductCash(Id);
         }
     }
 }
